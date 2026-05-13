@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国食品饮料行业跟踪看板 | 2026年2-4月</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+    :root {
+            --bg-primary: #0a0f1e;
+            --bg-card: rgba(255,255,255,0.04);
+            --bg-card-hover: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.08);
+            --text-primary: #e8edf5;
+            --text-secondary: #8892a4;
+            --text-muted: #5a6270;
+            --accent-blue: #4facfe;
+            --accent-cyan: #00f2fe;
+            --accent-green: #43e97b;
+            --accent-orange: #fa709a;
+            --accent-yellow: #fee140;
+            --accent-red: #ff6b6b;
+            --accent-purple: #a18cd1;
+            --positive: #43e97b;
+            --negative: #ff6b6b;
+            --neutral: #4facfe;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .hero {
+            position: relative;
+            padding: 60px 40px 40px;
+            background: linear-gradient(135deg, #0a0f1e 0%, #0d1b2a 50%, #0a1628 100%);
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: -50%; right: -20%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(79,172,254,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-badge {
+            display: inline-block; padding: 4px 16px;
+            background: rgba(79,172,254,0.1); border: 1px solid rgba(79,172,254,0.25);
+            border-radius: 20px; font-size: 12px; color: var(--accent-blue);
+            letter-spacing: 2px; margin-bottom: 20px;
+        }
+        .hero h1 { font-size: 42px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; background: linear-gradient(135deg, #fff 0%, #c8d4e8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 30px; line-height: 1.6; }
+        .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+        .hero-stat { display: flex; align-items: center; gap: 12px; }
+        .hero-stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .hero-stat-info { display: flex; flex-direction: column; }
+        .hero-stat-value { font-size: 18px; font-weight: 700; }
+        .hero-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+        .nav-tabs {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10,15,30,0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 40px;
+            display: flex; gap: 0; overflow-x: auto;
+        }
+        .nav-tab { padding: 16px 20px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
+        .nav-tab:hover { color: var(--text-primary); }
+        .nav-tab.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+
+        .main-content { padding: 40px; max-width: 1400px; margin: 0 auto; }
+        .section { margin-bottom: 60px; scroll-margin-top: 80px; }
+        .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+        .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+
+        .kpi-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 20px; transition: all 0.2s; cursor: default;
+        }
+        .kpi-card:hover { border-color: rgba(79,172,254,0.3); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .kpi-value { font-size: 26px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+        .kpi-change { font-size: 12px; display: flex; align-items: center; gap: 4px; }
+        .kpi-change.up { color: var(--positive); }
+        .kpi-change.down { color: var(--negative); }
+        .kpi-sub { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+        /* 数据来源标注 */
+        .src {
+            font-size: 9.5px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            padding-top: 7px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.75;
+            line-height: 1.4;
+        }
+        .src-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            background: rgba(79,172,254,0.12);
+            border-radius: 3px;
+            font-style: normal;
+            flex-shrink: 0;
+            font-size: 8px;
+            color: var(--accent-blue);
+        }
+        .chart-src {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chart-src .src-icon { width: 13px; height: 13px; }
+        .table-src {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .insight-src {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chart-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+        .chart-title { font-size: 14px; font-weight: 600; margin-bottom: 20px; }
+        .chart-wrap { position: relative; height: 300px; }
+        .chart-wrap-sm { position: relative; height: 240px; }
+
+        .insight-box { background: linear-gradient(135deg, rgba(79,172,254,0.08) 0%, rgba(0,242,254,0.04) 100%); border: 1px solid rgba(79,172,254,0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+        .insight-box.warning { background: linear-gradient(135deg, rgba(250,112,154,0.08) 0%, rgba(255,107,107,0.04) 100%); border-color: rgba(250,112,154,0.2); }
+        .insight-box.success { background: linear-gradient(135deg, rgba(67,233,123,0.08) 0%, rgba(67,233,123,0.04) 100%); border-color: rgba(67,233,123,0.2); }
+        .insight-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; opacity: 0.7; }
+        .insight-text { font-size: 13px; line-height: 1.6; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+        .radar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .radar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+        .radar-emoji { font-size: 28px; margin-bottom: 8px; }
+        .radar-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+        .radar-score { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+        .radar-label { font-size: 10px; color: var(--text-muted); }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+        .progress-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        thead th { text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+        tbody tr { transition: background 0.15s; }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
+        tbody td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .num { font-weight: 700; font-variant-numeric: tabular-nums; }
+        .pos { color: var(--positive); }
+        .neg { color: var(--negative); }
+
+        .trend-list { display: flex; flex-direction: column; gap: 12px; }
+        .trend-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid transparent; transition: all 0.2s; }
+        .trend-item:hover { border-color: var(--border); background: rgba(255,255,255,0.04); }
+        .trend-rank { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+        .trend-content { flex: 1; }
+        .trend-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+        .trend-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+        .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pill { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid; }
+        .pill-up { border-color: rgba(67,233,123,0.3); color: var(--positive); background: rgba(67,233,123,0.08); }
+        .pill-down { border-color: rgba(255,107,107,0.3); color: var(--negative); background: rgba(255,107,107,0.08); }
+        .pill-neutral { border-color: rgba(79,172,254,0.3); color: var(--accent-blue); background: rgba(79,172,254,0.08); }
+
+        .timeline { display: flex; flex-direction: column; gap: 0; }
+        .timeline-item { display: flex; gap: 16px; position: relative; padding-bottom: 20px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; box-shadow: 0 0 12px rgba(79,172,254,0.4); }
+        .timeline-dot.green { background: var(--positive); box-shadow: 0 0 12px rgba(67,233,123,0.4); }
+        .timeline-dot.orange { background: var(--accent-orange); box-shadow: 0 0 12px rgba(250,112,154,0.4); }
+        .timeline-dot.yellow { background: var(--accent-yellow); box-shadow: 0 0 12px rgba(254,225,64,0.4); }
+        .timeline-line { position: absolute; left: 5px; top: 16px; width: 2px; height: calc(100% - 16px); background: rgba(255,255,255,0.05); }
+        .timeline-content { flex: 1; }
+        .timeline-date { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .timeline-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+        .timeline-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+        .tag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+        .tag-green { background: rgba(67,233,123,0.12); color: var(--positive); }
+        .tag-red { background: rgba(255,107,107,0.12); color: var(--negative); }
+        .tag-blue { background: rgba(79,172,254,0.12); color: var(--accent-blue); }
+        .tag-orange { background: rgba(250,112,154,0.12); color: var(--accent-orange); }
+        .tag-yellow { background: rgba(254,225,64,0.12); color: var(--accent-yellow); }
+        .tag-purple { background: rgba(161,140,209,0.12); color: var(--accent-purple); }
+
+        .footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 40px; }
+
+        @media (max-width: 1200px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-6 { grid-template-columns: repeat(3, 1fr); } .two-col { grid-template-columns: 1fr; } .radar-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .main-content { padding: 20px; } .hero { padding: 40px 20px; } .hero h1 { font-size: 28px; } .grid-4, .grid-3 { grid-template-columns: 1fr; } .grid-6 { grid-template-columns: 1fr 1fr; } .nav-tabs { padding: 0 20px; } .radar-grid { grid-template-columns: 1fr; } }
+
+        .color-bar { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+        .color-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+        .color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">📊 行业跟踪 · 近三月数据</div>
+        <h1>中国食品饮料行业<br>资讯与数据看板</h1>
+        <p class="hero-sub">覆盖宏观景气、细分赛道、成本供应链、渠道动销、头部公司、消费趋势、政策监管、资本动态八大维度<br>数据区间：2026年2月 – 2026年4月 | 不含酒类</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-icon" style="background:rgba(79,172,254,0.1);color:var(--accent-blue);">📈</div>
+                <div class="hero-stat-info"><div class="hero-stat-value">+2.4%</div><div class="hero-stat-label">Q1社零增速（食品饮料受益）</div></div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-icon" style="background:rgba(67,233,123,0.1);color:var(--positive);">💰</div>
+                <div class="hero-stat-info"><div class="hero-stat-value">超70%</div><div class="hero-stat-label">食企Q1营收净利双增</div></div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-icon" style="background:rgba(250,112,154,0.1);color:var(--accent-orange);">⚠️</div>
+                <div class="hero-stat-info"><div class="hero-stat-value">+41.7%</div><div class="hero-stat-label">PET价格同比大涨</div></div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-icon" style="background:rgba(254,225,64,0.1);color:var(--accent-yellow);">🍵</div>
+                <div class="hero-stat-info"><div class="hero-stat-value">4200亿</div><div class="hero-stat-label">新茶饮市场规模预测</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-tabs">
+    <div class="nav-tab active" onclick="scrollToSection('macro')">一、宏观景气</div>
+    <div class="nav-tab" onclick="scrollToSection('segment')">二、细分赛道</div>
+    <div class="nav-tab" onclick="scrollToSection('cost')">三、成本供应链</div>
+    <div class="nav-tab" onclick="scrollToSection('channel')">四、渠道动销</div>
+    <div class="nav-tab" onclick="scrollToSection('company')">五、头部公司</div>
+    <div class="nav-tab" onclick="scrollToSection('trend')">六、消费趋势</div>
+    <div class="nav-tab" onclick="scrollToSection('policy')">七、政策监管</div>
+    <div class="nav-tab" onclick="scrollToSection('capital')">八、资本动态</div>
+</div>
+
+<div class="main-content">
+
+<!-- ========== SECTION 1: 宏观 ========== -->
+<div class="section" id="macro">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(79,172,254,0.2),rgba(0,242,254,0.1));">🌍</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">一、宏观 &amp; 行业整体景气</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">定大盘水位 — 社零数据、CPI/PPI、通胀指标</div></div>
+    </div>
+
+    <div class="grid-4">
+        <div class="kpi-card">
+            <div class="kpi-label">Q1社零总额</div>
+            <div class="kpi-value" style="color:var(--accent-blue);">12.8万亿</div>
+            <div class="kpi-change up">▲ +2.4% YoY</div>
+            <div class="kpi-sub">比去年Q4加快0.7pp</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局《2026年一季度社会消费品零售总额》</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Q1饮料类零售</div>
+            <div class="kpi-value" style="color:var(--accent-green);">+7.4%</div>
+            <div class="kpi-change up">▲ 限额以上 YoY</div>
+            <div class="kpi-sub">广东3月饮料类+11.9%</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局；广东省统计局3月零售数据</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">3月CPI同比</div>
+            <div class="kpi-value" style="color:var(--neutral);">+1.0%</div>
+            <div class="kpi-change up">▲ 温和回升</div>
+            <div class="kpi-sub">食品价格+0.3%，核心CPI+1.2%</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局《2026年3月CPI数据》</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">3月PPI同比</div>
+            <div class="kpi-value" style="color:var(--accent-green);">+0.5%</div>
+            <div class="kpi-change up">▲ 41个月来首涨</div>
+            <div class="kpi-sub">工业品价格转正，通缩压力缓解</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局《2026年3月PPI数据》</div>
+        </div>
+    </div>
+
+    <div class="two-col" style="margin-top:16px;">
+        <div class="chart-container">
+            <div class="chart-title">📊 2026年社零增速走势</div>
+            <div class="chart-wrap-sm"><canvas id="chartRetail"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>国家统计局月度零售数据；商务部商业大数据</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">📈 CPI &amp; PPI 同比走势</div>
+            <div class="chart-wrap-sm"><canvas id="chartCPI"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>国家统计局《全国居民消费价格指数》《工业生产者出厂价格指数》</div>
+        </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px;">
+        <table>
+            <thead><tr><th>指标</th><th>1-2月</th><th>3月</th><th>Q1累计</th><th>趋势</th></tr></thead>
+            <tbody>
+                <tr><td>社零总额增速</td><td class="num">+2.8%</td><td class="num">+1.7%</td><td class="num pos">+2.4%</td><td><span class="tag tag-green">复苏中</span></td></tr>
+                <tr><td>餐饮收入增速</td><td class="num">—</td><td class="num">+2.9%</td><td class="num pos">+4.2%</td><td><span class="tag tag-green">向好</span></td></tr>
+                <tr><td>限额以上饮料类</td><td class="num">—</td><td class="num">+11.9%</td><td class="num pos">+7.4%</td><td><span class="tag tag-green">高增长</span></td></tr>
+                <tr><td>限额以上粮油食品</td><td class="num">—</td><td class="num">+5.1%</td><td class="num pos">+7.3%</td><td><span class="tag tag-blue">稳健</span></td></tr>
+                <tr><td>CPI食品烟酒</td><td class="num">—</td><td class="num">0.0%</td><td class="num">+0.1%</td><td><span class="tag tag-blue">平稳</span></td></tr>
+                <tr><td>PPI（工业出厂价）</td><td class="num">-0.6%</td><td class="num pos">+0.5%</td><td class="num">-0.6%</td><td><span class="tag tag-green">转正改善</span></td></tr>
+            </tbody>
+        </table>
+        <div class="table-src"><span class="src-icon">源</span>国家统计局《2026年Q1主要消费指标》；广东、上海、浙江省级统计局</div>
+    </div>
+
+    <div class="insight-box success" style="margin-top:20px;">
+        <div class="insight-label">📌 宏观小结</div>
+        <div class="insight-text"><strong>消费大盘温和复苏。</strong>2026年Q1社零同比+2.4%，较去年Q4加快0.7pp；限额以上饮料类Q1累计+7.4%，广东3月高达+11.9%，食品饮料品类显著跑赢整体。CPI温和上行（3月+1.0%），PPI在连续41个月下降后首次转正（3月+0.5%），工业品通缩压力缓解。整体判断：行业处于<strong>弱复苏</strong>阶段。</div>
+        <div class="insight-src"><span class="src-icon">源</span>国家统计局；商务部；中泰证券研究所</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 2: 细分赛道 ========== -->
+<div class="section" id="segment">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(67,233,123,0.2),rgba(67,233,123,0.05));">🏃</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">二、细分赛道景气</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">找高增长机会 — 各子赛道规模、增速、集中度</div></div>
+    </div>
+
+    <div class="radar-grid">
+        <div class="radar-card">
+            <div class="radar-emoji">🥤</div><div class="radar-name">软饮料</div>
+            <div class="radar-score" style="color:var(--positive);">高景气</div>
+            <div class="radar-label">东鹏营收+21%，养元+37.5%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:85%;background:var(--positive);"></div></div>
+            <div class="src" style="text-align:left;"><span class="src-icon">源</span>东鹏饮料、养元饮品2026年Q1季报</div>
+        </div>
+        <div class="radar-card">
+            <div class="radar-emoji">🍿</div><div class="radar-name">量贩零食</div>
+            <div class="radar-score" style="color:var(--positive);">高景气</div>
+            <div class="radar-label">万辰净利+193%，洽洽+118%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:92%;background:var(--positive);"></div></div>
+            <div class="src" style="text-align:left;"><span class="src-icon">源</span>万辰集团、洽洽食品2026年Q1季报</div>
+        </div>
+        <div class="radar-card">
+            <div class="radar-emoji">🍜</div><div class="radar-name">速冻食品</div>
+            <div class="radar-score" style="color:var(--positive);">高景气</div>
+            <div class="radar-label">安井营收+31%，利润+43%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:88%;background:var(--positive);"></div></div>
+            <div class="src" style="text-align:left;"><span class="src-icon">源</span>安井食品2026年Q1季报</div>
+        </div>
+        <div class="radar-card">
+            <div class="radar-emoji">🧂</div><div class="radar-name">调味品</div>
+            <div class="radar-score" style="color:var(--accent-blue);">中景气</div>
+            <div class="radar-label">海天营收+8.6%，餐饮弱复苏</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:70%;background:var(--accent-blue);"></div></div>
+            <div class="src" style="text-align:left;"><span class="src-icon">源</span>海天味业2026年Q1季报；国家统计局餐饮数据</div>
+        </div>
+        <div class="radar-card">
+            <div class="radar-emoji">🥛</div><div class="radar-name">乳制品</div>
+            <div class="radar-score" style="color:var(--accent-blue);">改善中</div>
+            <div class="radar-label">伊利稳健，低温奶领跑</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:55%;background:var(--accent-blue);"></div></div>
+            <div class="src" style="text-align:left;"><span class="src-icon">源</span>伊利股份2026年Q1季报；新乳业季报</div>
+        </div>
+        <div class="radar-card">
+            <div class="radar-emoji">🍵</div><div class="radar-name">新式茶饮</div>
+            <div class="radar-score" style="color:var(--accent-yellow);">增速放缓</div>
+            <div class="radar-label">市场规模4200亿，增速降至14%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:60%;background:var(--accent-yellow);"></div></div>
+            <div class="src" style="text-align:left;"><span class="src-icon">源</span>美团研究院《2026新茶饮白皮书》；窄门餐眼</div>
+        </div>
+    </div>
+
+    <div class="two-col">
+        <div class="chart-container">
+            <div class="chart-title">🥤 软饮料赛道：代表企业Q1增速</div>
+            <div class="chart-wrap"><canvas id="chartSoftDrink"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>东鹏饮料、养元饮品、香飘飘、承德露露2026年Q1季报；Wind金融终端</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">🍿 零食赛道：Q1营收同比增速</div>
+            <div class="chart-wrap"><canvas id="chartSnack"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>万辰集团、洽洽食品、有友食品、劲仔食品、甘源食品2026年Q1季报；Wind金融终端</div>
+        </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px;">
+        <table>
+            <thead><tr><th>赛道</th><th>代表企业</th><th>Q1营收</th><th>营收YoY</th><th>Q1净利</th><th>净利YoY</th><th>景气信号</th></tr></thead>
+            <tbody>
+                <tr><td>量贩零食</td><td>万辰集团</td><td class="num">166亿</td><td class="num pos">+53.7%</td><td class="num">6.3亿</td><td class="num pos">+193%</td><td><span class="tag tag-green">最强</span></td></tr>
+                <tr><td>软饮料</td><td>养元饮品</td><td class="num">25.6亿</td><td class="num pos">+37.5%</td><td class="num">8.1亿</td><td class="num pos">+25.8%</td><td><span class="tag tag-green">高增长</span></td></tr>
+                <tr><td>软饮料</td><td>东鹏饮料</td><td class="num">58.9亿</td><td class="num pos">+21.5%</td><td class="num">12.6亿</td><td class="num pos">+28.3%</td><td><span class="tag tag-green">稳健</span></td></tr>
+                <tr><td>速冻食品</td><td>安井食品</td><td class="num">47.1亿</td><td class="num pos">+30.8%</td><td class="num">5.6亿</td><td class="num pos">+42.7%</td><td><span class="tag tag-green">强劲</span></td></tr>
+                <tr><td>调味品</td><td>海天味业</td><td class="num">90.3亿</td><td class="num pos">+8.6%</td><td class="num">24.4亿</td><td class="num pos">+11.0%</td><td><span class="tag tag-blue">稳健</span></td></tr>
+                <tr><td>乳制品</td><td>伊利股份</td><td class="num">347亿</td><td class="num pos">+5.5%</td><td class="num">54.0亿</td><td class="num pos">+稳健</td><td><span class="tag tag-blue">龙头</span></td></tr>
+                <tr><td>含乳饮料</td><td>李子园 ⚠️</td><td class="num">3.0亿</td><td class="num neg">-6.4%</td><td class="num">5351万</td><td class="num neg">-19.1%</td><td><span class="tag tag-red">承压</span></td></tr>
+            </tbody>
+        </table>
+        <div class="table-src"><span class="src-icon">源</span>各公司2026年Q1季报（上交所/深交所信息披露）；Wind金融数据库；东方财富Choice数据</div>
+    </div>
+
+    <div class="insight-box" style="margin-top:20px;">
+        <div class="insight-label">📌 赛道小结</div>
+        <div class="insight-text"><strong>大众品景气抬升，结构性分化明显。</strong>量贩零食（万辰净利+193%、洽洽+118%）、软饮料（东鹏+21%、养元+37.5%）、速冻食品（安井+31%营收）三大赛道景气度最高。乳制品供需格局改善中，伊利龙头稳固。李子园含乳饮料连续承压（营收-6.4%、净利-19.1%），产品调整仍在进行。茶饮赛道进入存量博弈，增速从24.9%骤降至6.4%。</div>
+        <div class="insight-src"><span class="src-icon">源</span>公司季报；美团研究院；中信证券《2026年食品饮料行业中期策略》</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 3: 成本 ========== -->
+<div class="section" id="cost">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(250,112,154,0.2),rgba(250,112,154,0.05));">🏭</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">三、成本 &amp; 供应链</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">直接影响利润 — 大宗原料、包材、物流</div></div>
+    </div>
+
+    <div class="grid-4">
+        <div class="kpi-card">
+            <div class="kpi-label">PET塑料价格</div>
+            <div class="kpi-value" style="color:var(--accent-orange);">+41.7%</div>
+            <div class="kpi-change down">▲ YoY</div>
+            <div class="kpi-sub">年初至今飙升49%，受油价推动</div>
+            <div class="src"><span class="src-icon">源</span>高盛大宗商品研究；Bloomberg PET现货数据；中信证券化工组</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">原奶价格</div>
+            <div class="kpi-value" style="color:var(--accent-green);">低位运行</div>
+            <div class="kpi-change up">→ 乳企成本压力缓解</div>
+            <div class="kpi-sub">产能去化，2026供需改善</div>
+            <div class="src"><span class="src-icon">源</span>农业农村部奶业监测数据；国联证券《乳业供需追踪》</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">白糖价格</div>
+            <div class="kpi-value" style="color:var(--accent-yellow);">高位波动</div>
+            <div class="kpi-change down">⚠ 零食/软饮承压</div>
+            <div class="kpi-sub">全球糖价维持高位</div>
+            <div class="src"><span class="src-icon">源</span>ICE期货交易所11号白糖合约；国际糖业组织（ISO）</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">油脂/小麦</div>
+            <div class="kpi-value" style="color:var(--neutral);">稳中有降</div>
+            <div class="kpi-change up">→ 部分原料成本回落</div>
+            <div class="kpi-sub">零食龙头毛利率改善</div>
+            <div class="src"><span class="src-icon">源</span>郑州商品交易所菜油/小麦期货；Wind农产品价格指数</div>
+        </div>
+    </div>
+
+    <div class="two-col" style="margin-top:16px;">
+        <div class="chart-container">
+            <div class="chart-title">⚠️ PET价格同比涨幅走势</div>
+            <div class="chart-wrap-sm"><canvas id="chartPET"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>高盛大宗商品研究；Bloomberg；中信证券化工组2026Q1追踪报告</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">🍬 主要原料成本方向（2026Q1 YoY）</div>
+            <div class="chart-wrap-sm"><canvas id="chartCost"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>Wind农化品价格数据库；郑商所期货结算价；农业农村部监测数据</div>
+        </div>
+    </div>
+
+    <div class="insight-box warning" style="margin-top:20px;">
+        <div class="insight-label">⚠️ 成本预警</div>
+        <div class="insight-text"><strong>PET成为最大成本压力。</strong>2026年以来，受全球油价推动，PET现货价格同比大涨41.7%（年初至今+49%），对软饮料企业毛利率形成显著压制。东鹏、养元等头部企业通过<strong>提前锁价</strong>策略对冲，Q1毛利率仍实现同比提升。但中小饮料企业压力不容忽视。乳制品受益于原奶低位运行，成本压力最轻，部分企业已实现毛利率修复。</div>
+        <div class="insight-src"><span class="src-icon">源</span>高盛；Bloomberg；东鹏、养元季报电话会；中信证券食品饮料组</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 4: 渠道动销 ========== -->
+<div class="section" id="channel">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(161,140,209,0.2),rgba(161,140,209,0.05));">🛒</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">四、渠道动销数据</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">最真实的终端销售 — 线下+线上</div></div>
+    </div>
+
+    <div class="grid-6">
+        <div class="kpi-card">
+            <div class="kpi-label">便利店增速</div>
+            <div class="kpi-value" style="color:var(--positive);">+8.3%</div>
+            <div class="kpi-sub">限额以上Q1累计</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">超市增速</div>
+            <div class="kpi-value" style="color:var(--positive);">+5.1%</div>
+            <div class="kpi-sub">限额以上Q1累计</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">百货店</div>
+            <div class="kpi-value" style="color:var(--negative);">下降</div>
+            <div class="kpi-sub">传统零售仍承压</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">品牌专卖店</div>
+            <div class="kpi-value" style="color:var(--negative);">下降</div>
+            <div class="kpi-sub">关店调整进行中</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">线上电商增速</div>
+            <div class="kpi-value" style="color:var(--positive);">+8.1%</div>
+            <div class="kpi-sub">食品饮料表现突出</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局；商务部网络零售监测</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">餐饮渠道</div>
+            <div class="kpi-value" style="color:var(--positive);">+4.2%</div>
+            <div class="kpi-sub">Q1餐饮收入增速</div>
+            <div class="src"><span class="src-icon">源</span>国家统计局《2026年Q1餐饮数据》</div>
+        </div>
+    </div>
+
+    <div class="three-col" style="margin-top:20px;">
+        <div class="chart-container">
+            <div class="chart-title">📍 线下渠道增速对比（Q1 2026）</div>
+            <div class="chart-wrap"><canvas id="chartOffline"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>国家统计局限额以上零售分业态数据；商务部商业大数据月报</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">🛍️ 渠道景气度排序</div>
+            <div class="trend-list" style="padding:8px;">
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(67,233,123,0.15);color:var(--positive);">1</div><div class="trend-content"><div class="trend-title">量贩零食/特渠</div><div class="trend-desc">去中间化、高性价比，持续放量</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(67,233,123,0.15);color:var(--positive);">2</div><div class="trend-content"><div class="trend-title">便利店/即时零售</div><div class="trend-desc">Q1限额以上+8.3%，表现最优</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(79,172,254,0.15);color:var(--accent-blue);">3</div><div class="trend-content"><div class="trend-title">会员制商超</div><div class="trend-desc">精选SKU+质价比，第二增长曲线</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(79,172,254,0.15);color:var(--accent-blue);">4</div><div class="trend-content"><div class="trend-title">电商/兴趣电商</div><div class="trend-desc">增速+8.1%，食品饮料表现突出</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(255,107,107,0.15);color:var(--negative);">5</div><div class="trend-content"><div class="trend-title">传统商超/百货</div><div class="trend-desc">仍处调整期，人流下降</div></div></div>
+            </div>
+            <div class="chart-src"><span class="src-icon">源</span>国家统计局；中泰证券渠道调研报告</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">📱 电商平台趋势</div>
+            <div class="trend-list" style="padding:8px;">
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(250,112,154,0.15);color:var(--accent-orange);">热</div><div class="trend-content"><div class="trend-title">抖音电商</div><div class="trend-desc">直播GMV增长，兴趣电商持续渗透</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(254,225,64,0.15);color:var(--accent-yellow);">新</div><div class="trend-content"><div class="trend-title">小红书种草</div><div class="trend-desc">药食同源产品销售额+12.6%，增速为食品饮料整体的2倍以上</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(79,172,254,0.15);color:var(--accent-blue);">稳</div><div class="trend-content"><div class="trend-title">天猫/京东</div><div class="trend-desc">由规模扩张转向控价稳盘与费效优化</div></div></div>
+                <div class="trend-item"><div class="trend-rank" style="background:rgba(161,140,209,0.15);color:var(--accent-purple);">升</div><div class="trend-content"><div class="trend-title">即时零售</div><div class="trend-desc">配送时效升级，驱动高频消费场景</div></div></div>
+            </div>
+            <div class="chart-src"><span class="src-icon">源</span>抖音电商研究院；阿里健康研究院；商务部《2026年Q1网络零售报告》</div>
+        </div>
+    </div>
+
+    <div class="insight-box success" style="margin-top:20px;">
+        <div class="insight-label">📌 渠道小结</div>
+        <div class="insight-text"><strong>渠道分化加剧，新型渠道全面放量。</strong>量贩零食、便利店、即时零售三大渠道景气度最高；传统商超、百货持续承压。线上渠道Q1增长8.1%，抖音电商和小红书种草成为新品破圈的重要阵地。药食同源产品在电商平台销售额同比+12.6%，远超食品饮料整体增速。</div>
+        <div class="insight-src"><span class="src-icon">源</span>国家统计局；商务部；阿里健康研究院《2025药食同源白皮书》；中泰证券</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 5: 头部公司 ========== -->
+<div class="section" id="company">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(254,225,64,0.2),rgba(254,225,64,0.05));">🏢</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">五、头部公司经营动态</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">行业风向标 — 财报、战略、资本动作</div></div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>企业</th><th>赛道</th><th>Q1营收</th><th>YoY</th><th>净利</th><th>YoY</th><th>核心亮点</th></tr></thead>
+            <tbody>
+                <tr><td><strong>伊利股份</strong></td><td>乳制品</td><td class="num">347.4亿</td><td class="num pos">+5.5%</td><td class="num">54.0亿</td><td class="num pos">稳健</td><td>液体乳、奶粉稳居第一，低温奶份额提升</td></tr>
+                <tr><td><strong>东鹏饮料</strong></td><td>功能饮料</td><td class="num">58.9亿</td><td class="num pos">+21.5%</td><td class="num">12.6亿</td><td class="num pos">+28.3%</td><td>全国化扩张，持续扩品类，电解质水布局</td></tr>
+                <tr><td><strong>养元饮品</strong></td><td>植物蛋白</td><td class="num">25.6亿</td><td class="num pos">+37.5%</td><td class="num">8.1亿</td><td class="num pos">+25.8%</td><td>创2019年以来Q1新高，直销+45.7%</td></tr>
+                <tr><td><strong>安井食品</strong></td><td>速冻食品</td><td class="num">47.1亿</td><td class="num pos">+30.8%</td><td class="num">5.6亿</td><td class="num pos">+42.7%</td><td>扣非净利+53%，经营现金流+55%</td></tr>
+                <tr><td><strong>妙可蓝多</strong></td><td>奶酪</td><td class="num">16.3亿</td><td class="num pos">+31.8%</td><td class="num">—</td><td class="num">—</td><td>ToB/ToC双轮驱动，各板块超20%增长</td></tr>
+                <tr><td><strong>新乳业</strong></td><td>低温乳品</td><td class="num">28.4亿</td><td class="num pos">+8.3%</td><td class="num">1.9亿</td><td class="num pos">+39.9%</td><td>低温品类双位数增长，五年净利率倍增</td></tr>
+                <tr><td><strong>海天味业</strong></td><td>调味品</td><td class="num">90.3亿</td><td class="num pos">+8.6%</td><td class="num">24.4亿</td><td class="num pos">+11.0%</td><td>龙头地位稳固，小品类持续放量</td></tr>
+                <tr><td><strong>维维股份</strong></td><td>综合食品</td><td class="num">9.5亿</td><td class="num pos">+11.3%</td><td class="num">8414万</td><td class="num pos">+18.7%</td><td>创历史同期最高，战略转型成效</td></tr>
+            </tbody>
+        </table>
+        <div class="table-src"><span class="src-icon">源</span>以上各公司2026年Q1季报（上市公司信息披露平台）；Wind金融数据库；东方财富Choice</div>
+    </div>
+
+    <div class="three-col" style="margin-top:20px;">
+        <div class="chart-container">
+            <div class="chart-title">🏆 Q1营收规模 TOP5</div>
+            <div class="chart-wrap"><canvas id="chartTop5Rev"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>公司2026年Q1季报；Wind</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">💹 Q1净利润 TOP5</div>
+            <div class="chart-wrap"><canvas id="chartTop5Profit"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>公司2026年Q1季报；Wind</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">📈 Q1净利增速 TOP5</div>
+            <div class="chart-wrap"><canvas id="chartTop5Growth"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>公司2026年Q1季报；Wind；东方财富Choice</div>
+        </div>
+    </div>
+
+    <div class="insight-box" style="margin-top:20px;">
+        <div class="insight-label">📌 公司小结</div>
+        <div class="insight-text"><strong>头部企业普遍实现"量价齐升"，超七成食企Q1营收净利双增。</strong>伊利稳居乳制品绝对龙头；东鹏全国化扩张提速，持续布局电解质水新赛道；安井扣非净利+53%最为亮眼；养元饮品创2015年来Q1新高。行业呈现"强者恒强"格局，龙头企业凭借规模效应、品牌力和供应链优势进一步扩大领先优势。</div>
+        <div class="insight-src"><span class="src-icon">源</span>各公司季报及业绩说明会；中信证券《2026年食品饮料Q1总结报告》；Wind</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 6: 消费趋势 ========== -->
+<div class="section" id="trend">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(67,233,123,0.2),rgba(67,233,123,0.05));">🔮</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">六、消费趋势 &amp; 人群偏好</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">抓长期逻辑 — 产品/场景/人群趋势</div></div>
+    </div>
+
+    <div class="three-col">
+        <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">🍃 产品趋势</div>
+            <div class="trend-list">
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(67,233,123,0.15);color:var(--positive);">热</div>
+                    <div class="trend-content"><div class="trend-title">0糖/低GI</div><div class="trend-desc">茶饮消费者越来越在意"低GI""多纤维"，健康成分成核心卖点</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(79,172,254,0.15);color:var(--accent-blue);">新</div>
+                    <div class="trend-content"><div class="trend-title">电解质水</div><div class="trend-desc">2026年头部企业扎堆布局，东鹏等品牌加速进入</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(161,140,209,0.15);color:var(--accent-purple);">升</div>
+                    <div class="trend-content"><div class="trend-title">药食同源</div><div class="trend-desc">天猫/京东/抖音四大平台MAT2025销售额192亿，同比+12.6%</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(254,225,64,0.15);color:var(--accent-yellow);">热</div>
+                    <div class="trend-content"><div class="trend-title">功能性成分</div><div class="trend-desc">97%消费者已选择健康饮品，功能性成分+场景化消费成破局关键</div></div>
+                </div>
+            </div>
+            <div class="chart-src" style="margin-top:12px;"><span class="src-icon">源</span>阿里健康研究院《2025药食同源白皮书》；尼尔森IQ《中国健康饮料消费洞察》；美团研究院</div>
+        </div>
+        <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">🎯 场景趋势</div>
+            <div class="trend-list">
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(67,233,123,0.15);color:var(--positive);">热</div>
+                    <div class="trend-content"><div class="trend-title">户外/运动补水</div><div class="trend-desc">电解质水、功能饮料受益于户外运动场景爆发</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(79,172,254,0.15);color:var(--accent-blue);">稳</div>
+                    <div class="trend-content"><div class="trend-title">家庭囤货/早餐</div><div class="trend-desc">速冻食品、速食产品持续受益于家庭消费场景</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(161,140,209,0.15);color:var(--accent-purple);">新</div>
+                    <div class="trend-content"><div class="trend-title">银发经济</div><div class="trend-desc">成人营养品双位数增长，伊利等乳企积极布局</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(250,112,154,0.15);color:var(--accent-orange);">新</div>
+                    <div class="trend-content"><div class="trend-title">Z世代/宝妈</div><div class="trend-desc">低糖、国潮、高颜值产品成为年轻人首选</div></div>
+                </div>
+            </div>
+            <div class="chart-src" style="margin-top:12px;"><span class="src-icon">源</span>凯度消费者指数；CBNData《2026年轻人消费报告》；伊利年报</div>
+        </div>
+        <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">📱 口碑舆情热点</div>
+            <div class="trend-list">
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(67,233,123,0.15);color:var(--positive);">爆</div>
+                    <div class="trend-content"><div class="trend-title">东鹏特饮</div><div class="trend-desc">全国化渠道扩张，一季度持续放量，品牌热度高</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(79,172,254,0.15);color:var(--accent-blue);">热</div>
+                    <div class="trend-content"><div class="trend-title">电解质水</div><div class="trend-desc">小红书/抖音种草热度飙升，多品牌入局</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(254,225,64,0.15);color:var(--accent-yellow);">稳</div>
+                    <div class="trend-content"><div class="trend-title">低温鲜奶</div><div class="trend-desc">新乳业"鲜立方"战略成效显著，低温品类双位数增长</div></div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-rank" style="background:rgba(161,140,209,0.15);color:var(--accent-purple);">新</div>
+                    <div class="trend-content"><div class="trend-title">中式养生饮品</div><div class="trend-desc">药食同源概念持续渗透日常消费场景</div></div>
+                </div>
+            </div>
+            <div class="chart-src" style="margin-top:12px;"><span class="src-icon">源</span>新乳业季报；东鹏季报；小红书/抖音平台公开数据；千瓜数据</div>
+        </div>
+    </div>
+
+    <div class="insight-box success" style="margin-top:20px;">
+        <div class="insight-label">📌 趋势小结</div>
+        <div class="insight-text"><strong>健康化、功能化、场景化成为三大主线。</strong>97%消费者已选择健康饮品，0糖低GI、功能性成分需求爆发式增长。电解质水成2026年最大热门赛道，药食同源产品电商增速达12.6%（为食品饮料整体2倍以上）。Z世代、银发经济、宝妈群体消费分层明显，中式养生概念持续破圈。</div>
+        <div class="insight-src"><span class="src-icon">源</span>尼尔森IQ；阿里健康研究院；美团研究院；凯度消费者指数；CBNData</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 7: 政策 ========== -->
+<div class="section" id="policy">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(250,112,154,0.2),rgba(250,112,154,0.05));">📋</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">七、政策 &amp; 监管 &amp; 舆情</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">防风险 — 政策、监管、舆情事件</div></div>
+    </div>
+
+    <div class="timeline" style="max-width:800px;">
+        <div class="timeline-item">
+            <div class="timeline-dot green"></div><div class="timeline-line"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">2026年2月6日</div>
+                <div class="timeline-title">预制菜国家标准征求意见稿发布</div>
+                <div class="timeline-desc">国务院食安办等部门发布《食品安全国家标准 预制菜》等三份文件征求意见，明确不得使用腐败变质原料，农药残留、兽药残留须符合相应限量。这是预制菜首个国家标准的重大突破。</div>
+                <div class="pill-group" style="margin-top:8px;">
+                    <span class="pill pill-up">规范化利好龙头</span>
+                </div>
+                <div class="chart-src" style="margin-top:10px;"><span class="src-icon">源</span>国务院食安办；国家市场监督管理总局官网公告（2026-02-06）</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div><div class="timeline-line"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">2026年3月 · 两会</div>
+                <div class="timeline-title">两会食品行业四大政策重点</div>
+                <div class="timeline-desc">①预制菜国家标准加速推进 ②食品安全监管趋严（添加剂新规） ③提振消费政策延续（以旧换新扩围） ④食饮企业出海支持政策</div>
+                <div class="pill-group" style="margin-top:8px;">
+                    <span class="pill pill-neutral">消费提振</span>
+                    <span class="pill pill-neutral">食安监管</span>
+                    <span class="pill pill-up">政策利好</span>
+                </div>
+                <div class="chart-src" style="margin-top:10px;"><span class="src-icon">源</span>全国人民代表大会官网；商务部；国家市场监督管理总局两会相关文件</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot orange"></div><div class="timeline-line"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">2026年Q1</div>
+                <div class="timeline-title">新茶饮：扩张刹车，七成品牌门店收缩</div>
+                <div class="timeline-desc">GeoQ数据显示，2026年Q1新茶饮市场虽整体营收净利双增长，但超七成品牌门店数出现下跌。行业从"卷门店"转向"卷价值"，竞争回归产品与供应链本质。</div>
+                <div class="pill-group" style="margin-top:8px;">
+                    <span class="pill pill-down">行业调整</span>
+                </div>
+                <div class="chart-src" style="margin-top:10px;"><span class="src-icon">源</span>GeoQ《2026年Q1新茶饮门店数据报告》；窄门餐眼门店追踪数据</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="insight-box warning" style="margin-top:20px;">
+        <div class="insight-label">⚠️ 风险提示</div>
+        <div class="insight-text"><strong>政策端：</strong>预制菜国家标准落地将对中小企业形成规范压力，利好具备规模化、标准化能力的龙头企业。<strong>行业端：</strong>新茶饮赛道扩张刹车，七成品牌门店收缩，行业洗牌加速。消费者对食品安全关注度持续提升，品牌舆情管理重要性凸显。</div>
+        <div class="insight-src"><span class="src-icon">源</span>国家市场监督管理总局；GeoQ；中信证券《食安监管专题》；窄门餐眼</div>
+    </div>
+</div>
+
+<!-- ========== SECTION 8: 资本 ========== -->
+<div class="section" id="capital">
+    <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,rgba(254,225,64,0.2),rgba(254,225,64,0.05));">💹</div>
+        <div><div class="section-title" style="font-size:20px;font-weight:700;">八、资本 &amp; 投融资</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">看行业热度 — 一级/二级市场</div></div>
+    </div>
+
+    <div class="grid-4">
+        <div class="kpi-card">
+            <div class="kpi-label">新茶饮格局</div>
+            <div class="kpi-value" style="color:var(--accent-yellow);">一超多强</div>
+            <div class="kpi-sub">蜜雪冰城6万家店稳居第一</div>
+            <div class="src"><span class="src-icon">源</span>蜜雪冰城2025年年报；窄门餐眼门店数据</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">蜜雪冰城营收</div>
+            <div class="kpi-value" style="color:var(--positive);">335.6亿</div>
+            <div class="kpi-change up">▲ +35.2% YoY</div>
+            <div class="kpi-sub">2025年全年，全球近6万门店</div>
+            <div class="src"><span class="src-icon">源</span>蜜雪冰城2025年年报（港交所上市信息披露）</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">古茗控股净利</div>
+            <div class="kpi-value" style="color:var(--positive);">+110%</div>
+            <div class="kpi-change up">▲ YoY（精细化运营典范）</div>
+            <div class="kpi-sub">跻身行业前三，净利率24.1%</div>
+            <div class="src"><span class="src-icon">源</span>古茗控股2025年年报（港交所上市信息披露）</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">茶饮融资热度</div>
+            <div class="kpi-value" style="color:var(--negative);">降温</div>
+            <div class="kpi-change down">↓ 门店扩张放缓</div>
+            <div class="kpi-sub">资本从"卷规模"转向"卷盈利"</div>
+            <div class="src"><span class="src-icon">源</span>IT桔子；36氪《2026年Q1消费赛道融资盘点》</div>
+        </div>
+    </div>
+
+    <div class="two-col" style="margin-top:16px;">
+        <div class="chart-container">
+            <div class="chart-title">🍵 新茶饮六小龙2025业绩对比</div>
+            <div class="chart-wrap"><canvas id="chartTea6"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>蜜雪冰城、古茗控股2025年年报（港交所）；霸王茶姬、茶百道招股书及年报</div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">🏪 新茶饮品牌门店规模对比</div>
+            <div class="chart-wrap"><canvas id="chartStoreCount"></canvas></div>
+            <div class="chart-src"><span class="src-icon">源</span>窄门餐眼；GeoQ《2026年Q1连锁门店数据》；各品牌官方公告</div>
+        </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px;">
+        <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>2025营收</th><th>净利</th><th>门店数</th><th>市场策略</th></tr></thead>
+            <tbody>
+                <tr><td><strong>蜜雪冰城</strong></td><td><span class="tag tag-green">性价比</span></td><td class="num">335.6亿</td><td class="num pos">+32.7%</td><td class="num">近6万家</td><td>全球扩张，下沉市场</td></tr>
+                <tr><td><strong>古茗控股</strong></td><td><span class="tag tag-blue">中端</span></td><td class="num">129.1亿</td><td class="num pos">+110%</td><td class="num">超1万家</td><td>精细运营，净利率24.1%</td></tr>
+                <tr><td><strong>霸王茶姬</strong></td><td><span class="tag tag-blue">中高端</span></td><td class="num">—</td><td class="num neg">亏损</td><td class="num">规模扩张</td><td>上市后首年，盈利承压</td></tr>
+                <tr><td><strong>茶百道</strong></td><td><span class="tag tag-purple">中端</span></td><td class="num">—</td><td class="num">—</td><td class="num">万店级</td><td>下沉+出海双轮驱动</td></tr>
+                <tr><td><strong>沪上阿姨</strong></td><td><span class="tag tag-yellow">中端</span></td><td class="num">—</td><td class="num">—</td><td class="num">万店级</td><td>门店调整优化中</td></tr>
+            </tbody>
+        </table>
+        <div class="table-src"><span class="src-icon">源</span>蜜雪冰城、古茗控股年报（港交所）；霸王茶姬、茶百道招股书；窄门餐眼；GeoQ门店追踪</div>
+    </div>
+
+    <div class="insight-box" style="margin-top:20px;">
+        <div class="insight-label">📌 资本小结</div>
+        <div class="insight-text"><strong>资本关注从"规模"转向"盈利"。</strong>新茶饮赛道从高速扩张转入价值竞争，蜜雪冰城以335.6亿营收、近60亿净利稳坐龙头；古茗净利增速110%、净利率24.1%成"小而美"典范；霸王茶姬上市首年即亏损。七成品牌Q1门店数下降，资本正在从茶饮赛道撤退，转向关注盈利质量更优的大众食品（量贩零食、速冻、调味品）。</div>
+        <div class="insight-src"><span class="src-icon">源</span>港交所年报；IT桔子；36氪；中信证券《2026年新茶饮赛道专题》</div>
+    </div>
+</div>
+
+<!-- 综合结论 -->
+<div class="section" id="summary" style="margin-bottom:20px;">
+    <div style="background:linear-gradient(135deg,rgba(79,172,254,0.06),rgba(0,242,254,0.03));border:1px solid rgba(79,172,254,0.15);border-radius:20px;padding:32px;">
+        <div style="font-size:18px;font-weight:700;margin-bottom:20px;">📋 综合结论与核心关注</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+            <div>
+                <div style="font-size:12px;font-weight:700;color:var(--positive);margin-bottom:10px;">✅ 当前景气方向</div>
+                <div style="font-size:12px;line-height:1.8;color:var(--text-secondary);">
+                    · 社零温和复苏，食品饮料跑赢整体<br>
+                    · 量贩零食、速冻食品景气度最高<br>
+                    · 东鹏/养元等软饮龙头持续高增<br>
+                    · 低温乳品/功能性饮料成新增长点<br>
+                    · 电商渠道增速8.1%，表现亮眼
+                </div>
+            </div>
+            <div>
+                <div style="font-size:12px;font-weight:700;color:var(--accent-orange);margin-bottom:10px;">⚠️ 需关注风险</div>
+                <div style="font-size:12px;line-height:1.8;color:var(--text-secondary);">
+                    · PET价格暴涨41.7%，软饮成本承压<br>
+                    · 新茶饮七成品牌门店收缩<br>
+                    · 传统商超/百货持续下滑<br>
+                    · 白糖价格高位，零食企业承压<br>
+                    · 预制菜新规对中小企业冲击
+                </div>
+            </div>
+            <div>
+                <div style="font-size:12px;font-weight:700;color:var(--accent-blue);margin-bottom:10px;">🔮 下一阶段建议</div>
+                <div style="font-size:12px;line-height:1.8;color:var(--text-secondary);">
+                    · 重点跟踪电解质水赛道竞争格局<br>
+                    · 关注量贩零食龙头（万辰/洽洽）<br>
+                    · 看好低温乳制品供需改善<br>
+                    · 布局药食同源/功能性食品机会<br>
+                    · 回避茶饮纯规模扩张型标的
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    数据来源：国家统计局、商务部、Wind、中泰证券、东方财富、中信证券、各公司公告 | 统计区间：2026年2月-4月（近三个月）<br>
+    本看板由 WorkBuddy 生成 | 仅供研究参考，不构成投资建议
+</div>
+
+</div>
+
+<script>
+// ====== CHARTS ======
+const CHART_PALETTE = {
+    blue: '#4facfe', cyan: '#00f2fe', green: '#43e97b',
+    orange: '#fa709a', yellow: '#fee140', red: '#ff6b6b', purple: '#a18cd1'
+};
+const FONT = { family: "-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif", size: 12, color: '#8892a4' };
+Chart.defaults.font.family = FONT.family;
+Chart.defaults.color = FONT.color;
+
+function makeGradient(ctx, color1, color2) {
+    const g = ctx.createLinearGradient(0, 0, 0, 300);
+    g.addColorStop(0, color1); g.addColorStop(1, color2);
+    return g;
+}
+
+// Chart 1: 社零增速
+new Chart(document.getElementById('chartRetail'), {
+    type: 'bar',
+    data: {
+        labels: ['2025年12月', '2026年1-2月', '2026年3月', '2026年Q1'],
+        datasets: [{
+            label: '社零增速 YoY (%)',
+            data: [3.7, 2.8, 1.7, 2.4],
+            backgroundColor: ['rgba(79,172,254,0.5)', 'rgba(79,172,254,0.6)', 'rgba(79,172,254,0.7)', 'rgba(67,233,123,0.7)'],
+            borderColor: ['#4facfe', '#4facfe', '#4facfe', '#43e97b'],
+            borderWidth: 1, borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.y}%` } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 2: CPI & PPI
+new Chart(document.getElementById('chartCPI'), {
+    type: 'line',
+    data: {
+        labels: ['2025年12月', '2026年1月', '2026年2月', '2026年3月'],
+        datasets: [
+            { label: 'CPI YoY (%)', data: [0.2, 0.5, 0.7, 1.0], borderColor: CHART_PALETTE.orange, backgroundColor: 'rgba(250,112,154,0.1)', tension: 0.4, fill: true, borderWidth: 2, pointRadius: 4 },
+            { label: 'PPI YoY (%)', data: [-2.3, -1.8, -0.9, 0.5], borderColor: CHART_PALETTE.cyan, backgroundColor: 'rgba(0,242,254,0.1)', tension: 0.4, fill: true, borderWidth: 2, pointRadius: 4 }
+        ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}%` } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 3: 软饮料增速
+new Chart(document.getElementById('chartSoftDrink'), {
+    type: 'bar',
+    data: {
+        labels: ['东鹏饮料\n(营收)', '养元饮品\n(营收)', '香飘飘\n(利润)', '承德露露\n(反弹)'],
+        datasets: [{
+            label: 'Q1 YoY (%)',
+            data: [21.5, 37.5, 597, 20],
+            backgroundColor: [CHART_PALETTE.blue, CHART_PALETTE.green, CHART_PALETTE.yellow, CHART_PALETTE.cyan],
+            borderRadius: 8
+        }]
+    },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.x}%` } } },
+        scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => v + '%' } }, y: { grid: { display: false } } }
+    }
+});
+
+// Chart 4: 零食增速
+new Chart(document.getElementById('chartSnack'), {
+    type: 'bar',
+    data: {
+        labels: ['万辰集团', '洽洽食品', '有友食品', '劲仔食品', '甘源食品'],
+        datasets: [{
+            label: 'Q1营收增速 (%)',
+            data: [53.7, 41.5, 39.6, 24.2, 22.5],
+            backgroundColor: ['rgba(67,233,123,0.7)', 'rgba(67,233,123,0.6)', 'rgba(67,233,123,0.5)', 'rgba(67,233,123,0.4)', 'rgba(67,233,123,0.3)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.y}%` } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 5: PET价格
+new Chart(document.getElementById('chartPET'), {
+    type: 'line',
+    data: {
+        labels: ['2025年Q4', '2026年1月', '2026年2月', '2026年3月'],
+        datasets: [{
+            label: 'PET价格同比涨幅 (%)',
+            data: [10, 28, 38, 41.7],
+            borderColor: CHART_PALETTE.orange, backgroundColor: 'rgba(250,112,154,0.15)',
+            tension: 0.4, fill: true, borderWidth: 3, pointRadius: 6,
+            pointBackgroundColor: CHART_PALETTE.orange
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `+${ctx.parsed.y}% YoY` } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, min: 0, ticks: { callback: v => '+' + v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 6: 原料成本
+new Chart(document.getElementById('chartCost'), {
+    type: 'bar',
+    data: {
+        labels: ['PET塑料', '白糖', '原奶', '油脂', '小麦/玉米'],
+        datasets: [{
+            label: '成本变动方向',
+            data: [41.7, 15, -8, -5, -3],
+            backgroundColor: ['rgba(255,107,107,0.7)', 'rgba(255,107,107,0.5)', 'rgba(67,233,123,0.6)', 'rgba(67,233,123,0.4)', 'rgba(67,233,123,0.3)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y + '%' } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => (v >= 0 ? '+' : '') + v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 7: 线下渠道
+new Chart(document.getElementById('chartOffline'), {
+    type: 'bar',
+    data: {
+        labels: ['便利店', '超市', '专业店', '品牌专卖店', '百货店'],
+        datasets: [{
+            label: 'Q1增速 (%)',
+            data: [8.3, 5.1, 0.5, -1.0, -2.5],
+            backgroundColor: ['rgba(67,233,123,0.7)', 'rgba(67,233,123,0.5)', 'rgba(79,172,254,0.4)', 'rgba(255,107,107,0.4)', 'rgba(255,107,107,0.7)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y + '%' } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => (v >= 0 ? '+' : '') + v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 8: Top5营收
+new Chart(document.getElementById('chartTop5Rev'), {
+    type: 'bar',
+    data: {
+        labels: ['伊利', '海天', '东鹏', '安井', '养元'],
+        datasets: [{
+            label: 'Q1营收（亿元）',
+            data: [347.4, 90.3, 58.9, 47.1, 25.6],
+            backgroundColor: ['rgba(79,172,254,0.6)', 'rgba(79,172,254,0.5)', 'rgba(79,172,254,0.4)', 'rgba(79,172,254,0.35)', 'rgba(79,172,254,0.3)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '亿' } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 9: Top5净利润
+new Chart(document.getElementById('chartTop5Profit'), {
+    type: 'bar',
+    data: {
+        labels: ['伊利', '海天', '东鹏', '养元', '安井'],
+        datasets: [{
+            label: 'Q1净利润（亿元）',
+            data: [54.0, 24.4, 12.6, 8.1, 5.6],
+            backgroundColor: ['rgba(67,233,123,0.6)', 'rgba(67,233,123,0.5)', 'rgba(67,233,123,0.4)', 'rgba(67,233,123,0.35)', 'rgba(67,233,123,0.3)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '亿' } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 10: Top5增速
+new Chart(document.getElementById('chartTop5Growth'), {
+    type: 'bar',
+    data: {
+        labels: ['万辰(净利)', '洽洽(净利)', '中炬(净利)', '安井(净利)', '新乳(净利)'],
+        datasets: [{
+            label: '净利增速 (%)',
+            data: [193, 118, 45, 43, 40],
+            backgroundColor: ['rgba(254,225,64,0.7)', 'rgba(254,225,64,0.6)', 'rgba(254,225,64,0.5)', 'rgba(254,225,64,0.4)', 'rgba(254,225,64,0.3)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '+' + ctx.parsed.y + '%' } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => '+' + v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 11: 新茶饮六小龙
+new Chart(document.getElementById('chartTea6'), {
+    type: 'bar',
+    data: {
+        labels: ['蜜雪冰城\n营收(亿)', '古茗\n营收(亿)', '蜜雪冰城\n净利(亿)', '古茗\n净利(亿)'],
+        datasets: [
+            { label: '营收', data: [335.6, 129.1, 0, 0], backgroundColor: 'rgba(79,172,254,0.6)', borderRadius: 6 },
+            { label: '净利', data: [58.9, 31.1, 0, 0], backgroundColor: 'rgba(67,233,123,0.6)', borderRadius: 6 }
+        ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+    }
+});
+
+// Chart 12: 门店规模
+new Chart(document.getElementById('chartStoreCount'), {
+    type: 'bar',
+    data: {
+        labels: ['蜜雪冰城', '古茗', '沪上阿姨', '茶百道'],
+        datasets: [{
+            label: '门店数（万家）',
+            data: [6.0, 1.0, 1.0, 1.0],
+            backgroundColor: ['rgba(254,225,64,0.7)', 'rgba(161,140,209,0.6)', 'rgba(79,172,254,0.5)', 'rgba(67,233,123,0.5)'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '万家' } } },
+        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+    }
+});
+
+// ====== NAVIGATION ======
+const tabs = document.querySelectorAll('.nav-tab');
+const sections = document.querySelectorAll('.section');
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => {
+        if (s.getBoundingClientRect().top < 150) cur = s.id;
+    });
+    tabs.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('onclick').includes(cur));
+    });
+});
+</script>
+</body>
+</html>
